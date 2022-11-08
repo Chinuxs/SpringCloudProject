@@ -1,0 +1,9 @@
+spring.application.name=servicio-items
+spring.profiles.active=dev
+#esta definicion indica a que lugar tiene que ir este microservicio a buscar su configuracion
+#es decir que lo primero que va a levantar dentro del proceso de spring es, este archivo, que indica a que servidor
+#tiene que ir a buscar sus properties, y en una segunda instancia intenta levantar el application.properties.
+spring.cloud.config.uri=http://localhost:8888
+#El nombre del archivo properties en el servidor de configuracion tiene que se el mismo nombre 
+#que el microservicio.
+management.endpoints.web.exposure.include=*
