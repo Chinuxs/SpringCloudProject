@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import com.formaciondbi.springboot.app.commons.usuarios.models.entity.Usuario;
 import com.formaciondbi.springboot.app.oauth.clients.UsuarioFeignClient;
 
+import brave.Tracer;
 import feign.FeignException;
 
 @Service
@@ -26,6 +27,9 @@ public class UsuarioService implements UserDetailsService, IUsuarioService{
 
 	@Autowired
 	UsuarioFeignClient client;
+	
+	@Autowired 
+	private Tracer tracer;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -41,7 +45,9 @@ public class UsuarioService implements UserDetailsService, IUsuarioService{
 			return new User(usuario.getUsername(), usuario.getPassword(), usuario.getEnable(), true, true, true, authorities);
 			
 		} catch (FeignException e) {
-			log.error("Error en el login, no existe el usuario '"+username+"' en el sistema");
+			String error = "Error en el login, no existe el usuario '"+username+"' en el sistema";
+			log.error(error);
+			tracer.currentSpan().tag("error.mensaje", error+": "+e.getMessage());
 			throw new UsernameNotFoundException("Error en el login, no existe el usuario '"+username+"' en el sistema");
 		}
 		
