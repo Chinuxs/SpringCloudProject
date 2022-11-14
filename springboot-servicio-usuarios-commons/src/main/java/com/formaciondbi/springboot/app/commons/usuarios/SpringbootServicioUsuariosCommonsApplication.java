@@ -7,6 +7,6 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 @SpringBootApplication
 @EnableAutoConfiguration(exclude= {DataSourceAutoConfiguration.class})
 public class SpringbootServicioUsuariosCommonsApplication {
-
+	//Removimos el main.
 
 }

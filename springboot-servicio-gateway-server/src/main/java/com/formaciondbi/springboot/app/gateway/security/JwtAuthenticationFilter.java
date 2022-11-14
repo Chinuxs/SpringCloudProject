@@ -12,6 +12,11 @@ import org.springframework.web.server.WebFilterChain;
 
 import reactor.core.publisher.Mono;
 
+/**
+ * @author cesar.augusto.romero
+ * Otro filtro para para validar el token.
+ *
+ */
 @Component
 public class JwtAuthenticationFilter implements WebFilter{
 

@@ -37,6 +37,11 @@ public class Usuario implements Serializable {
 	@Column(unique = true, length = 100)
 	private String email;
 	
+	/**
+	 * fetch = FetchType.LAZY --> basicamente nos ayuda a no traer todas las relaciones 
+	 * y cargalas en memoria, sino que solo traer la tabla main, y levantar sus relaciones 
+	 * una vez que uno realiza un getRoles() 
+	 */
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "usuarios_roles", 
 	joinColumns = @JoinColumn(name = "usuario_id"), 

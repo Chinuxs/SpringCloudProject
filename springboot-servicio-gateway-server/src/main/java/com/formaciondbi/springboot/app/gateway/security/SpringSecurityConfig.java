@@ -8,6 +8,12 @@ import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 
+/**
+ * @author cesar.augusto.romero
+ *  Configuro la seguridad como en Zuul pero ahora atraves de webflux
+ *  Configuro el servidor de recursos.
+ *  Basicamente es un filtro dentor del context de Spring von Webflux
+ */
 @EnableWebFluxSecurity
 public class SpringSecurityConfig {
 	
