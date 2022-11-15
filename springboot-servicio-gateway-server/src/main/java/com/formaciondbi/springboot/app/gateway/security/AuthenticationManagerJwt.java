@@ -23,7 +23,9 @@ import reactor.core.publisher.Mono;
 
 /**
  * @author Administrator
- *
+ *  Esta clase la usa para validar el token, no para generar el token
+ *  Es una clase de Authorizacio
+ *  
  */
 @Component
 public class AuthenticationManagerJwt implements ReactiveAuthenticationManager{

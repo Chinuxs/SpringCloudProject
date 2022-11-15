@@ -20,6 +20,11 @@ import com.formaciondbi.springboot.app.oauth.clients.UsuarioFeignClient;
 import brave.Tracer;
 import feign.FeignException;
 
+/**
+ * @author cesar.augusto.romero
+ * Estamos utilizando una clase propia de spring security que nos ayuda a manejar  la tarea de autenticar usuarios
+ * Por eso tiene una clase llamanda UserDetailsService
+ */
 @Service
 public class UsuarioService implements UserDetailsService, IUsuarioService{
 	
@@ -40,7 +45,8 @@ public class UsuarioService implements UserDetailsService, IUsuarioService{
 			
 			List<GrantedAuthority> authorities = usuario.getRoles().stream()
 					.map(role -> new SimpleGrantedAuthority(role.getNombre()))
-					.peek(authority -> log.info("Role: " + authority.getAuthority())).collect(Collectors.toList());
+					.peek(authority -> log.info("Role: " + authority.getAuthority()))
+					.collect(Collectors.toList());
 			
 			return new User(usuario.getUsername(), usuario.getPassword(), usuario.getEnable(), true, true, true, authorities);
 			

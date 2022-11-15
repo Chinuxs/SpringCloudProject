@@ -13,6 +13,11 @@ import org.springframework.stereotype.Component;
 import com.formaciondbi.springboot.app.commons.usuarios.models.entity.Usuario;
 import com.formaciondbi.springboot.app.oauth.services.IUsuarioService;
 
+/**
+ * @author cesar.augusto.romero
+ *	Esta implementacion nos permite agregar mas claims al token por defecto.
+ *
+ */
 @Component
 public class InfoAdicionalToken implements TokenEnhancer{
 
@@ -21,6 +26,8 @@ public class InfoAdicionalToken implements TokenEnhancer{
 	
 	/**
 	 * esto serian los claims, donde se agregan campos al token.
+	 * En el objeto OAuth2Authentication, recibimos los datos del user, seria como un httprequest
+	 * 
 	 */
 	@Override
 	public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {

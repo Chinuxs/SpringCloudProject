@@ -16,6 +16,14 @@ import com.formaciondbi.springboot.app.oauth.services.IUsuarioService;
 import feign.FeignException;
 import feign.FeignException.FeignClientException;
 
+/**
+ * @author cesar.augusto.romero
+ * Esta clase va a manejar el fracaso o el exito de la autenticacion/autorizacion
+ * 
+ * Problematica: como en el request tenemos 2 usuarios, la app y el usuario registrado, va a intentar correr 2 veces este evento por cada account en el request
+ * 
+ *
+ */
 @Component
 public class AuthenticationSuccessErrorHandler implements AuthenticationEventPublisher{
 	
@@ -24,11 +32,17 @@ public class AuthenticationSuccessErrorHandler implements AuthenticationEventPub
 	@Autowired
 	private IUsuarioService usuarioService;
 
+	/**
+	 * Claramente este metodo nos ayuda a hacer algo luego que el usuario haya sido logeado correctamente.
+	 * 
+	 */
 	@Override
 	public void publishAuthenticationSuccess(Authentication authentication) {
 		
 		//en teoria atrapa la instancia del cliente webapp
+		//esquivamos el usuario de la app
 		if (authentication.getDetails() instanceof WebAuthenticationDetails) {
+		//if (authentication.getName().equalsIgnoreCase("frontendapp")) {	
 			return;
 		}
 		
@@ -37,6 +51,7 @@ public class AuthenticationSuccessErrorHandler implements AuthenticationEventPub
 		System.out.println(mensaje);
 		log.info(mensaje);
 		
+		//reseteamos los intentos fallidos de login del usuario.
 		Usuario usuario = usuarioService.findByUsername(authentication.getName());
 		if (usuario.getIntentos() != null && usuario.getIntentos() > 0) {
 			usuario.setIntentos(0);
@@ -44,6 +59,9 @@ public class AuthenticationSuccessErrorHandler implements AuthenticationEventPub
 		}
 	}
 
+	/**
+	 *  Por el otro lado, este metodo nos permite, hacer algo luego que el registro del usuario haya fallado
+	 */
 	@Override
 	public void publishAuthenticationFailure(AuthenticationException exception, Authentication authentication) {
 		

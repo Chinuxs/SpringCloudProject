@@ -19,6 +19,12 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
+/**
+ * @author cesar.augusto.romero
+ *	Tendremos que indicar que esta clase es un servidor de autorizacion con @EnableAuthorizationServer
+ *  y heredamos de AuthorizationServerConfigurerAdapter
+ *
+ */
 @RefreshScope
 @Configuration
 @EnableAuthorizationServer
@@ -63,12 +69,21 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	 */
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		clients.inMemory().withClient(env.getProperty("config.security.oauth.client.id"))
+		clients.inMemory()
+		.withClient(env.getProperty("config.security.oauth.client.id"))
 		.secret(passwordEncoder.encode(env.getProperty("config.security.oauth.client.secret")))  //credenciales de la aplicacion
 		.scopes("read","write")
 		.authorizedGrantTypes("password","refresh_token") // credenciales del login de usuario
 		.accessTokenValiditySeconds(3600)
 		.refreshTokenValiditySeconds(3600)
+		/*.and()
+		.withClient("AndroidApp")
+		.secret("Passwoed1234")  //credenciales de otra aplicacion
+		.scopes("read","write")
+		.authorizedGrantTypes("password","refresh_token") // credenciales del login de usuario
+		.accessTokenValiditySeconds(3600)
+		.refreshTokenValiditySeconds(3600)
+		*/
 		;
 	}
 
@@ -80,6 +95,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 		
+		// es un objeto que me permite unir informacion del token
 		TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
 		tokenEnhancerChain.setTokenEnhancers(Arrays.asList(infoAdicionalToken, accessTokenConverter()));
 		
