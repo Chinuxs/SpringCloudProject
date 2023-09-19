@@ -24,6 +24,13 @@ public class AppConfig {
 	/**
 	 * LoadBalanced, le indicamos que ribbon tiene que balancear ese servicio 
 	 * y trabaja con restTemplate para tener esas instancias
+	 * 
+	 * Explicacion: por que en este caso registro un RestTemplate? 
+	 * Por que no existe el bean creado con anterioridad, y no se puedo auto-crear
+	 * Es fundamental para poder inyectarlo (@Autowire) en cualquier otra clase.
+	 * 
+	 * Basicamente se registro un bean en el contenedor de Spring
+	 * 
 	 */
 	@Bean("clienteRest")
 	@LoadBalanced
